@@ -166,9 +166,5 @@ cython_debug/
 *h5
 *pkl
 
-# Custom files
-Test/*
-data/*
-convert_weights.py
-evaluate
-TODO.txt
+# Test files
+My/*
