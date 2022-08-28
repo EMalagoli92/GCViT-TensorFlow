@@ -8,7 +8,7 @@ tf.get_logger().setLevel('ERROR')
 import tensorflow_addons as tfa 
 import tensorflow.experimental.numpy as tnp
 from tensorflow.python.framework import random_seed
-from models.config import MODELS_CONFIG, TF_WEIGHTS_DIR
+from models.config import MODELS_CONFIG, TAG, TF_WEIGHTS_URL
 from models.utils import flatten_, _to_channel_first
 from models.layers.utils import Dense_, LayerNorm_, Identity_
 from models.layers.patch_embed import PatchEmbed
@@ -194,7 +194,12 @@ def GCViT(configuration: Optional[str] = None,
                     model(tf.ones((1,224,224,3)))
                 elif model.data_format == "channels_first":
                     model(tf.ones((1,3,224,224)))
-                model.load_weights(os.path.normpath(os.path.join(TF_WEIGHTS_DIR,configuration + '.h5')))
+                weights_path = "{}/{}/{}.h5".format(TF_WEIGHTS_URL,TAG,configuration)
+                model_weights = tf.keras.utils.get_file(fname = "{}.h5".format(configuration),
+                                                        origin = weights_path,
+                                                        cache_subdir = "datasets/gcvit_tensorflow"
+                                                        )
+                model.load_weights(model_weights)
             return model
         else:
             raise KeyError(f"{configuration} configuration not found. Valid values are: xxtiny, xtiny, tiny, small, base.")
