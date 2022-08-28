@@ -78,7 +78,7 @@ model = GCViT(depths = [2, 2, 6, 2],
               classifier_activation = "softmax"
               )
 ```
-- Use a a predefined GCviT configuration.
+- Use a a predefined GCViT configuration.
 ```python
 from models import GCViT
     
