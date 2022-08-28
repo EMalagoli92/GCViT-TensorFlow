@@ -57,6 +57,8 @@ git clone EMalagoli92/GCViT-TensorFlow
 pip install -r requirements.txt
 ```
 
+Tested on *Ubuntu 20.04.4 LTS x86_64*, *python 3.9.7*.
+
 ## Usage
 - Define a custom GCViT configuration.
 ```python
