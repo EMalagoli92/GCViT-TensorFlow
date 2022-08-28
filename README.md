@@ -1,3 +1,6 @@
+<div align="center">
+  <a href="">![LICENSE](https://img.shields.io/github/license/EMalagoli92/GCViT-TensorFlow?style=for-the-badge)</a>
+</div>
 
 # GCViT-TensorFlow
 TensorFlow 2.X implementation of [Global Context Vision Transformers](https://arxiv.org/pdf/2206.09959.pdf) [Ali Hatamizadeh](http://web.cs.ucla.edu/~ahatamiz),
