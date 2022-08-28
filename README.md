@@ -52,7 +52,7 @@ Mean metrics difference: `3e-4`.
 git clone EMalagoli92/GCViT-TensorFlow
 ```
 
-- Installing necessary packages 
+- Install necessary packages 
 ```
 pip install -r requirements.txt
 ```
