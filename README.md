@@ -116,5 +116,6 @@ y_pred = model(image)
 ```
 
 ## License
+This work is made available under the [MIT License](https://github.com/EMalagoli92/GCViT-TensorFlow/blob/main/LICENSE)
 
-[MIT](https://github.com/EMalagoli92/GCViT-TensorFlow/blob/main/LICENSE)
+The pre-trained weights are shared under [CC-BY-NC-SA-4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
