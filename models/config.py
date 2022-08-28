@@ -42,4 +42,5 @@ MODELS_CONFIG = {"xxtiny": {"depths": [2, 2, 6, 2],
                             }
                   }
 
-TF_WEIGHTS_DIR = "weights/tf_weights"
+TAG = ""
+TF_WEIGHTS_URL = ""
