@@ -5,7 +5,7 @@
 </div>
 
 # GCViT-TensorFlow
-TensorFlow 2.X implementation of [Global Context Vision Transformers](https://arxiv.org/pdf/2206.09959.pdf) [Ali Hatamizadeh](http://web.cs.ucla.edu/~ahatamiz),
+TensorFlow 2.X reimplementation of [Global Context Vision Transformers](https://arxiv.org/pdf/2206.09959.pdf) [Ali Hatamizadeh](http://web.cs.ucla.edu/~ahatamiz),
 [Hongxu (Danny) Yin](https://scholar.princeton.edu/hongxu), [Jan Kautz](https://jankautz.com/) [Pavlo Molchanov](https://www.pmolchanov.com/).
 
 - Exact TensorFlow reimplementation of official Pytorch repo, including `timm` modules used by authors, preserving models and layers structure.
