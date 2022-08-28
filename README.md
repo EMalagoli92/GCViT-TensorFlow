@@ -1,5 +1,7 @@
 <div align="center">
-  <a href="">![LICENSE](https://img.shields.io/github/license/EMalagoli92/GCViT-TensorFlow?style=for-the-badge)</a>
+
+  <a href="">![License](https://img.shields.io/github/license/EMalagoli92/GCViT-TensorFlow?style=for-the-badge)</a>
+  
 </div>
 
 # GCViT-TensorFlow
