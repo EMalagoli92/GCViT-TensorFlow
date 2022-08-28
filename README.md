@@ -114,4 +114,4 @@ Official PyTorch Implementation: []()
 
 ## License
 
-[MIT]()
+[MIT](https://github.com/EMalagoli92/GCViT-TensorFlow/blob/main/LICENSE)
