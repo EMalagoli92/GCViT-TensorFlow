@@ -93,7 +93,7 @@ model.compile(optimizer="sgd",
               )
 model.fit(x,y)              
 ```
-- Use ported ImageNet pretrained Weights
+- Use ported ImageNet pretrained weights
 ```python
 # Example
 from models import GCViT
