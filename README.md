@@ -4,7 +4,10 @@
   
 </div>
 
-# GCViT-TensorFlow {style=text-align:center}
+<div align="center">
+# GCViT-TensorFlow
+
+</div>
 TensorFlow 2.X reimplementation of [Global Context Vision Transformers](https://arxiv.org/pdf/2206.09959.pdf) [Ali Hatamizadeh](http://web.cs.ucla.edu/~ahatamiz),
 [Hongxu (Danny) Yin](https://scholar.princeton.edu/hongxu), [Jan Kautz](https://jankautz.com/) [Pavlo Molchanov](https://www.pmolchanov.com/).
 
