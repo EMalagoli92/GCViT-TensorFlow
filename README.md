@@ -98,7 +98,10 @@ model.fit(x,y)
 # Example
 from models import GCViT
 
-model = GCViT(configuration="base",pretrained=True)
+model = GCViT(configuration = "base",
+             pretrained = True, 
+             classifier_activation = "softmax"
+             )
 y_pred = model(image)
 ```
 
