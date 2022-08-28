@@ -36,7 +36,7 @@ context self attention layers in each stage of the architecture.</sub></p>
 ## Results
 TensorFlow implementation and ImageNet ported weights have been compared to the official Pytorch implementation on [ImageNet-V2](https://www.tensorflow.org/datasets/catalog/imagenet_v2) test set.
 
-| Configuration  | Top-1 (Original) | Top-1 (Ported) | Top-5 (Original) | Top-5 (Ported) | Params
+| Configuration  | Top-1 (Original) | Top-1 (Ported) | Top-5 (Original) | Top-5 (Ported) | #Params
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
 | GCViT-XXTiny  | 68.79 | 68.73 | 88.52 | 88.47 | 12 |
 | GCViT-XTiny  | 70.97 | 71 | 89.8 | 89.79 | 20 | 20 |
