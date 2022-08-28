@@ -42,5 +42,5 @@ MODELS_CONFIG = {"xxtiny": {"depths": [2, 2, 6, 2],
                             }
                   }
 
-TAG = ""
-TF_WEIGHTS_URL = ""
+TAG = "v1.0.0"
+TF_WEIGHTS_URL = "https://github.com/EMalagoli92/GCViT-TensorFlow/releases/download"
