@@ -184,6 +184,29 @@ def GCViT(configuration: Optional[str] = None,
           pretrained: bool = False,
           **kwargs
           ) -> tf.keras.Model:
+    '''
+    Wrapper function for GCViT model.
+
+    Parameters
+    ----------
+    configuration : Optional[str], optional
+        Name of GCViT predefined configuration. 
+        Possible values are: xxtiny, xtiny, tiny, small, base
+        The default is None.
+    pretrained : bool, optional
+        Whether to use ImageNet pretrained weights.
+        The default is False.
+
+    Raises
+    ------
+    KeyError
+        If choosen configuration not in:
+        ['xxtiny','xtiny','tiny','small','base']
+
+    Returns
+    -------
+    GCViT model (tf.keras.Model).
+    '''
     if configuration is not None:
         if configuration in MODELS_CONFIG.keys():
             model =  GCViT_(**MODELS_CONFIG[configuration],
