@@ -3,7 +3,7 @@ import math
 from typing import TypeVar, Type, Union
 import tensorflow as tf
 import tensorflow_probability as tfp
-from models.utils import _to_channel_last, _to_channel_first
+from gcvit_tensorflow.models.utils import _to_channel_last, _to_channel_first
 
 I = TypeVar("I",bound=tf.keras.initializers.Initializer)
 

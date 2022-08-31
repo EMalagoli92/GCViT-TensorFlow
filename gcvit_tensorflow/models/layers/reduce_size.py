@@ -1,9 +1,9 @@
 from typing import TypeVar, Type
 import tensorflow as tf
 import tensorflow_addons as tfa
-from models.layers.utils import LayerNorm_, Conv2d_
-from models.layers.se import SE
-from models.utils import _to_channel_first, _to_channel_last
+from gcvit_tensorflow.models.layers.utils import LayerNorm_, Conv2d_
+from gcvit_tensorflow.models.layers.se import SE
+from gcvit_tensorflow.models.utils import _to_channel_first, _to_channel_last
 
 L = TypeVar("L",bound=tf.keras.layers.Layer)
 

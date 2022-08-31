@@ -1,6 +1,6 @@
 import tensorflow as tf
-from models.layers.feat_extract import FeatExtract
-from models.utils import _to_channel_last
+from gcvit_tensorflow.models.layers.feat_extract import FeatExtract
+from gcvit_tensorflow.models.utils import _to_channel_last
 
 @tf.keras.utils.register_keras_serializable(package='gcvit')
 class GlobalQueryGen(tf.keras.layers.Layer):

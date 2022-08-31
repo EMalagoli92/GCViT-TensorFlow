@@ -1,12 +1,12 @@
 from typing import TypeVar, Type, Optional, Union
 import tensorflow as tf
-from models.layers.utils import LayerNorm_
-from models.layers.gcvit_block import GCViTBlock
-from models.layers.window_attention import WindowAttention
-from models.layers.window_attention_global import WindowAttentionGlobal
-from models.layers.reduce_size import ReduceSize
-from models.layers.global_query_gen import GlobalQueryGen
-from models.utils import _to_channel_first
+from gcvit_tensorflow.models.layers.utils import LayerNorm_
+from gcvit_tensorflow.models.layers.gcvit_block import GCViTBlock
+from gcvit_tensorflow.models.layers.window_attention import WindowAttention
+from gcvit_tensorflow.models.layers.window_attention_global import WindowAttentionGlobal
+from gcvit_tensorflow.models.layers.reduce_size import ReduceSize
+from gcvit_tensorflow.models.layers.global_query_gen import GlobalQueryGen
+from gcvit_tensorflow.models.utils import _to_channel_first
 
 L = TypeVar("L",bound=tf.keras.layers.Layer)
 

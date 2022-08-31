@@ -1,11 +1,11 @@
 from typing import Type, TypeVar, Union, Optional
 import tensorflow as tf
 import tensorflow_addons as tfa
-from models.layers.utils import LayerNorm_, DropPath_, Identity_
-from models.layers.window_attention import WindowAttention
-from models.layers.window_attention_global import WindowAttentionGlobal
-from models.layers.mlp import Mlp
-from models.utils import window_partition, window_reverse
+from gcvit_tensorflow.models.layers.utils import LayerNorm_, DropPath_, Identity_
+from gcvit_tensorflow.models.layers.window_attention import WindowAttention
+from gcvit_tensorflow.models.layers.window_attention_global import WindowAttentionGlobal
+from gcvit_tensorflow.models.layers.mlp import Mlp
+from gcvit_tensorflow.models.utils import window_partition, window_reverse
 
 L = TypeVar("L",bound=tf.keras.layers.Layer)
 

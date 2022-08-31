@@ -1,7 +1,7 @@
 from typing import TypeVar, Type, Optional
 import tensorflow as tf
 import tensorflow_addons as tfa
-from models.layers.utils import Dense_
+from gcvit_tensorflow.models.layers.utils import Dense_
 
 L = TypeVar("L",bound=tf.keras.layers.Layer)
 

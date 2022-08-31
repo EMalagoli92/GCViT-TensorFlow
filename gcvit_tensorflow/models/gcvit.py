@@ -8,11 +8,11 @@ tf.get_logger().setLevel('ERROR')
 import tensorflow_addons as tfa 
 import tensorflow.experimental.numpy as tnp
 from tensorflow.python.framework import random_seed
-from models.config import MODELS_CONFIG, TAG, TF_WEIGHTS_URL
-from models.utils import flatten_, _to_channel_first
-from models.layers.utils import Dense_, LayerNorm_, Identity_
-from models.layers.patch_embed import PatchEmbed
-from models.layers.gcvit_layer import GCViTLayer
+from gcvit_tensorflow.models.config import MODELS_CONFIG, TAG, TF_WEIGHTS_URL
+from gcvit_tensorflow.models.utils import flatten_, _to_channel_first
+from gcvit_tensorflow.models.layers.utils import Dense_, LayerNorm_, Identity_
+from gcvit_tensorflow.models.layers.patch_embed import PatchEmbed
+from gcvit_tensorflow.models.layers.gcvit_layer import GCViTLayer
 
 tnp.experimental_enable_numpy_behavior()
 

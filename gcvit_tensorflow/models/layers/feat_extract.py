@@ -1,7 +1,7 @@
 import tensorflow as tf
 import tensorflow_addons as tfa
-from models.layers.utils import Conv2d_, MaxPool2d_
-from models.layers.se import SE
+from gcvit_tensorflow.models.layers.utils import Conv2d_, MaxPool2d_
+from gcvit_tensorflow.models.layers.se import SE
 
 
 @tf.keras.utils.register_keras_serializable(package='gcvit')

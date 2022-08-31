@@ -1,7 +1,7 @@
 import tensorflow as tf
-from models.layers.utils import Conv2d_
-from models.layers.reduce_size import ReduceSize
-from models.utils import _to_channel_last
+from gcvit_tensorflow.models.layers.utils import Conv2d_
+from gcvit_tensorflow.models.layers.reduce_size import ReduceSize
+from gcvit_tensorflow.models.utils import _to_channel_last
 
 
 @tf.keras.utils.register_keras_serializable(package='gcvit')

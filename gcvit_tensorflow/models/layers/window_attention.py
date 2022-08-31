@@ -1,15 +1,16 @@
 from typing import Optional
 import tensorflow as tf
 import tensorflow.experimental.numpy as tnp
-from models.layers.utils import Dense_, TruncNormalInitializer_
-from models.utils import flatten_
+from gcvit_tensorflow.models.layers.utils import Dense_, TruncNormalInitializer_
+from gcvit_tensorflow.models.utils import flatten_
 
 
 @tf.keras.utils.register_keras_serializable(package='gcvit')
-class WindowAttentionGlobal(tf.keras.layers.Layer):
+class WindowAttention(tf.keras.layers.Layer):
     """
-    Global window attention based on: "Hatamizadeh et al.,
-    Global Context Vision Transformers <https://arxiv.org/abs/2206.09959>"
+    Local window attention based on: "Liu et al.,
+    Swin Transformer: Hierarchical Vision Transformer using Shifted Windows
+    <https://arxiv.org/abs/2103.14030>"    
     """
     def __init__(self,
                  dim: int,
@@ -34,7 +35,7 @@ class WindowAttentionGlobal(tf.keras.layers.Layer):
             Bool argument for query, key, value learnable bias. 
             The default is True.
         qk_scale : bool, optional
-            Bool argument to scaling query, key 
+            Bool argument to scaling query, key. 
             The default is None.
         attn_drop : float, optional
             Attention dropout rate. 
@@ -76,7 +77,7 @@ class WindowAttentionGlobal(tf.keras.layers.Layer):
                                                        dtype = relative_position_index.dtype
                                                        )
         self.qkv = Dense_(in_features = self.dim,
-                          out_features = self.dim *2,
+                          out_features = self.dim *3,
                           bias = self.qkv_bias,
                           name = "qkv"
                           )
@@ -85,7 +86,7 @@ class WindowAttentionGlobal(tf.keras.layers.Layer):
                                                   )
         self.proj = Dense_(in_features = self.dim,
                            out_features = self.dim,
-                           name = "proj"
+                           name = 'proj'
                            )
         self._proj_drop = tf.keras.layers.Dropout(rate = self.proj_drop,
                                                   name = "proj_drop"
@@ -101,17 +102,12 @@ class WindowAttentionGlobal(tf.keras.layers.Layer):
                                                )
         super().build(input_shape)
         
-        
-    def call(self,inputs,q_global,**kwargs):
+    def call(self,inputs, q_global,**kwargs):
         B_, N, C = inputs.shape
-        B = q_global.shape[0]
-        
-        kv = self.qkv(inputs)
-        kv = tf.reshape(kv,(B_, N, 2, self.num_heads, C // self.num_heads))
-        kv = tf.transpose(kv, perm = [2, 0, 3, 1, 4])
-        k, v = kv[0], kv[1]
-        q_global = tf.tile(q_global,(1,B_//B, 1, 1, 1))
-        q = tf.reshape(q_global,(B_, self.num_heads, N, C // self.num_heads))
+        qkv = self.qkv(inputs)
+        qkv = tf.reshape(qkv,(B_, N, 3, self.num_heads, C // self.num_heads))
+        qkv = tf.transpose(qkv, perm = [2, 0, 3, 1, 4])
+        q, k, v = qkv[0], qkv[1], qkv[2]
         q = q * self.scale
         attn = (q @ tnp.swapaxes(k,-2,-1))
         relative_position_bias = tf.gather(self.relative_position_bias_table, tf.reshape(self.relative_position_index,[-1]))
@@ -130,7 +126,7 @@ class WindowAttentionGlobal(tf.keras.layers.Layer):
 
     def get_config(self):
         config = super().get_config()
-        config.update({"dim": self.dim,
+        config.update({"dim" : self.dim,
                        "num_heads": self.num_heads,
                        "window_size": self.window_size,
                        "qkv_bias": self.qkv_bias,
