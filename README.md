@@ -24,12 +24,12 @@ TensorFlow 2.X reimplementation of [Global Context Vision Transformers](https://
 *GC ViT  achieves state-of-the-art results across image classification, object detection and semantic segmentation tasks. On ImageNet-1K dataset for classification, the tiny, small and base variants of GC ViT with `28M`, `51M` and `90M`, surpass comparably-sized prior art such as CNN-based ConvNeXt and ViT-based Swin Transformer by a large margin. Pre-trained GC ViT backbones in downstream tasks of object detection, instance segmentation, 
 and semantic segmentation using MS COCO and ADE20K datasets outperform prior work consistently, sometimes by large margins.*
 
-![Alt text](https://raw.githubusercontent.com/EMalagoli92/GCViT-TensorFlow/main/gcvit_tensorflow/assets/images/comp_plots.png?raw=true "Fig1")
+![Alt text](https://raw.githubusercontent.com/EMalagoli92/GCViT-TensorFlow/main/gcvit_tensorflow/assets/images/comp_plots.png?raw=true)
 <p align = "center"> <sub>Top-1 accuracy vs. model FLOPs/parameter size on ImageNet-1K dataset. GC ViT achieves
 new SOTA benchmarks for different model sizes as well as FLOPs, outperforming competing approaches by a
 significant margin.</sub> </p>
 
-![Alt text](gcvit_tensorflow/assets/images/arch.png?raw=true "Fig2")
+![Alt text](https://github.com/EMalagoli92/GCViT-TensorFlow/raw/main/gcvit_tensorflow/assets/images/arch.png?raw=true)
 <p align = "center"><sub>Architecture of the Global Context ViT. The authors use alternating blocks of local and global
 context self attention layers in each stage of the architecture.</sub></p>
 
