@@ -47,13 +47,13 @@ TensorFlow implementation and ImageNet ported weights have been compared to the 
 Mean metrics difference: `3e-4`.
 
 ## Installation
-- Clone the repo
+- Install from github
+```
+pip install git+https://github.com/EMalagoli92/GCViT-TensorFlow
+```
+- Clone the repo and install necessary packages 
 ```
 git clone EMalagoli92/GCViT-TensorFlow
-```
-
-- Install necessary packages 
-```
 pip install -r requirements.txt
 ```
 
