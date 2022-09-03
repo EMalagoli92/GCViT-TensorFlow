@@ -53,7 +53,7 @@ pip install git+https://github.com/EMalagoli92/GCViT-TensorFlow
 ```
 - Clone the repo and install necessary packages 
 ```
-git clone EMalagoli92/GCViT-TensorFlow
+git clone https://github.com/EMalagoli92/GCViT-TensorFlow.git
 pip install -r requirements.txt
 ```
 
