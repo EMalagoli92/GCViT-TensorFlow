@@ -3,12 +3,13 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 from typing import TypeVar, Type, Optional, Union, List
 import random
 import numpy as np
+import json
 import tensorflow as tf
 tf.get_logger().setLevel('ERROR')
 import tensorflow_addons as tfa 
 import tensorflow.experimental.numpy as tnp
 from tensorflow.python.framework import random_seed
-from gcvit_tensorflow.models.config import MODELS_CONFIG, TAG, TF_WEIGHTS_URL
+from gcvit_tensorflow.models.config import MODELS_CONFIG, TF_WEIGHTS_URL
 from gcvit_tensorflow.models.utils import flatten_, _to_channel_first
 from gcvit_tensorflow.models.layers.utils import Dense_, LayerNorm_, Identity_
 from gcvit_tensorflow.models.layers.patch_embed import PatchEmbed
@@ -24,6 +25,8 @@ tf.random.set_seed(SEED)
 random_seed.set_seed(SEED)
 np.random.seed(SEED)
 
+with open("gcvit_tensorflow/version.json",'r') as handle:
+    VERSION = json.load(handle)['VERSION'] 
 
 L = TypeVar("L",bound=tf.keras.layers.Layer)
 
@@ -217,7 +220,7 @@ def GCViT(configuration: Optional[str] = None,
                     model(tf.ones((1,224,224,3)))
                 elif model.data_format == "channels_first":
                     model(tf.ones((1,3,224,224)))
-                weights_path = "{}/{}/{}.h5".format(TF_WEIGHTS_URL,TAG,configuration)
+                weights_path = "{}/{}/{}.h5".format(TF_WEIGHTS_URL,VERSION,configuration)
                 model_weights = tf.keras.utils.get_file(fname = "{}.h5".format(configuration),
                                                         origin = weights_path,
                                                         cache_subdir = "datasets/gcvit_tensorflow"
