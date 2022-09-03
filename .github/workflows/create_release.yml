@@ -1,0 +1,76 @@
+name: Upload Release Asset
+
+on:
+  push:
+    paths:
+      - gcvit_tensorflow/version.json   	
+
+jobs:
+  build:
+    name: Update Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: JSON to variables
+        uses: rgarcia-phi/json-to-variables@v1.1.0
+        with:
+          filename: 'gcvit_tensorflow/version.json'
+          prefix: version
+      - name: Set up Python
+        uses: actions/setup-python@v2
+      - name: Secrets to env variables
+        uses: oNaiPs/secrets-to-env-action@v1
+        with:
+          secrets: ${{ toJSON(secrets) }}
+          include: MODELS_URL
+      - name: Install gdown
+        run: pip install gdown
+      - name: Download weights
+        uses: jannekem/run-python-script-action@v1
+        with:
+          script: |
+            import gdown
+            import json
+            import os
+            
+            MODELS_URL = json.loads(os.environ['MODELS_URL'])
+            
+            for model in MODELS_URL.keys():
+               print(f"Download: {model} configuration")
+               gdown.download(url=MODELS_URL[model], 
+                              output=f"{model}.h5", 
+                              quiet=True, 
+                              fuzzy=True, 
+                              resume=True
+                              )
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.version_version }}
+          release_name: Release ${{ env.version_version }}
+          draft: false
+          prerelease: false
+      - name: Upload artifact and release
+        uses: nanoufo/action-upload-artifacts-and-release-assets@main
+        with:
+          path: |
+            xxtiny.h5
+            xtiny.h5
+            tiny.h5
+            small.h5
+            base.h5
+          upload-release-files: true
+          release-upload-url: ${{ steps.create_release.outputs.upload_url }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Delete older releases and tags
+        uses: dev-drprasad/delete-older-releases@v0.2.0
+        with:
+          keep_latest: 1
+          delete_tags: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
