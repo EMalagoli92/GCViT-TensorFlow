@@ -25,7 +25,8 @@ tf.random.set_seed(SEED)
 random_seed.set_seed(SEED)
 np.random.seed(SEED)
 
-with open("gcvit_tensorflow/version.json",'r') as handle:
+version_path = os.path.normpath(os.path.join(os.path.split(os.path.dirname(__file__))[0],"version.json"))
+with open(version_path,'r') as handle:
     VERSION = json.load(handle)['VERSION'] 
 
 L = TypeVar("L",bound=tf.keras.layers.Layer)
