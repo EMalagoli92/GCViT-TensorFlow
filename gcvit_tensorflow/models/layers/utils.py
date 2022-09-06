@@ -239,17 +239,23 @@ class Conv2d_(tf.keras.layers.Layer):
             self.kernel_initializer = uniform_initializer
         if self.bias_initializer is None:
             self.bias_initializer = uniform_initializer
-
+            
+        # Data Format
+        if len(tf.config.list_physical_devices('GPU')) > 0:
+            self.data_format = "channels_first"
+        else:
+            self.data_format = "channels_last"
+            
         # Pad Layer
         if self.padding > 0:
             self.pad_layer = tf.keras.layers.ZeroPadding2D(padding = padding, 
-                                                           data_format = 'channels_first')
+                                                           data_format = self.data_format)
 
         self.conv_layer = tf.keras.layers.Conv2D(filters = self.out_channels,
                                                  kernel_size = self.kernel_size,
                                                  use_bias = self.bias,
                                                  padding = 'valid',
-                                                 data_format="channels_first",
+                                                 data_format=self.data_format,
                                                  groups = self.groups,
                                                  kernel_initializer = self.kernel_initializer,
                                                  bias_initializer = self.bias_initializer,
@@ -268,11 +274,16 @@ class Conv2d_(tf.keras.layers.Layer):
         return uniform_initializer
 
     def call(self,inputs,**kwargs):
+        if self.data_format == "channels_last":
+            inputs = _to_channel_last(inputs)
         if self.padding > 0:
             x = self.pad_layer(inputs)
         else:
             x = inputs
-        return self.conv_layer(x)  
+        x = self.conv_layer(x)
+        if self.data_format == "channels_last":
+            x = _to_channel_first(x)
+        return x
 
     def get_config(self):
         config = super().get_config()
