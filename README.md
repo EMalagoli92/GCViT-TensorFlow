@@ -1,8 +1,8 @@
 <div align="center">
 
   <a href="https://www.tensorflow.org">![TensorFLow](https://img.shields.io/badge/TensorFlow-2.X-orange?style=for-the-badge) 
-  <a href="">![License](https://img.shields.io/github/license/EMalagoli92/GCViT-TensorFlow?style=for-the-badge) 
-  <a href="">![Python](https://img.shields.io/badge/python-%3E%3D%203.7-blue?style=for-the-badge)</a>  
+  <a href="https://github.com/EMalagoli92/GCViT-TensorFlow/blob/main/LICENSE">![License](https://img.shields.io/github/license/EMalagoli92/GCViT-TensorFlow?style=for-the-badge) 
+  <a href="https://www.python.org">![Python](https://img.shields.io/badge/python-%3E%3D%203.7-blue?style=for-the-badge)</a>  
   
 </div>
 
@@ -80,7 +80,7 @@ model = GCViT(depths = [2, 2, 6, 2],
               classifier_activation = "softmax"
               )
 ```
-- Use a a predefined GCViT configuration.
+- Use a predefined GCViT configuration.
 ```python
 from gcvit_tensorflow import GCViT
     
