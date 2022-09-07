@@ -55,6 +55,10 @@ Mean metrics difference: `3e-4`.
 <div id="installation"/>
 
 ## Installation
+- Install from PyPI
+```python
+pip install gcvit_tensorflow
+```
 - Install from github
 ```
 pip install git+https://github.com/EMalagoli92/GCViT-TensorFlow
