@@ -59,7 +59,7 @@ Mean metrics difference: `3e-4`.
 ```python
 pip install gcvit_tensorflow
 ```
-- Install from github
+- Install from Github
 ```
 pip install git+https://github.com/EMalagoli92/GCViT-TensorFlow
 ```
