@@ -1,6 +1,8 @@
 <div align="center">
 
-  <a href="">![TensorFLow](https://img.shields.io/badge/TensorFlow-2.X-orange?style=for-the-badge) ![License](https://img.shields.io/github/license/EMalagoli92/GCViT-TensorFlow?style=for-the-badge) ![Python](https://img.shields.io/badge/python-%3E%3D%203.7-blue?style=for-the-badge)</a>  
+  <a href="">![TensorFLow](https://img.shields.io/badge/TensorFlow-2.X-orange?style=for-the-badge) 
+  <a href="">![License](https://img.shields.io/github/license/EMalagoli92/GCViT-TensorFlow?style=for-the-badge) 
+  <a href="">![Python](https://img.shields.io/badge/python-%3E%3D%203.7-blue?style=for-the-badge)</a>  
   
 </div>
 
