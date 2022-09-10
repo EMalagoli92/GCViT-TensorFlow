@@ -74,6 +74,8 @@ jobs:
           delete_tags: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install wheel
+        run: pip install wheel  
       - name: Build
         run: python setup.py sdist bdist_wheel
       - name: Publish to PyPI
