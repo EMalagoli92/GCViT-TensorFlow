@@ -438,8 +438,8 @@ class DropPath_(tf.keras.layers.Layer):
     of residual blocks).
     '''
     def __init__(self,
-                 drop_prob = None,
-                 scale_by_keep = True,
+                 drop_prob: float = 0.,
+                 scale_by_keep: bool = True,
                  **kwargs
                  ):
         super().__init__(**kwargs)
