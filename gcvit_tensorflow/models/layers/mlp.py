@@ -16,7 +16,7 @@ class Mlp(tf.keras.layers.Layer):
                  hidden_features: Optional[int] = None,
                  out_features: Optional[int] = None,
                  act_layer: Type[L] = tfa.layers.GELU,
-                 drop: int = 0.,
+                 drop: float = 0.,
                  **kwargs
                  ):
         """
