@@ -56,8 +56,8 @@ Mean metrics difference: `3e-4`.
 
 ## Installation
 - Install from PyPI
-```python
-pip install gcvit_tensorflow
+```
+pip install gcvit-tensorflow
 ```
 - Install from Github
 ```
@@ -113,8 +113,8 @@ model.fit(x,y)
 from gcvit_tensorflow import GCViT
 
 model = GCViT(configuration = "base",
-             pretrained = True, 
-             classifier_activation = "softmax"
+              pretrained = True, 
+              classifier_activation = "softmax"
              )
 y_pred = model(image)
 ```
