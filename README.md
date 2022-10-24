@@ -44,11 +44,11 @@ TensorFlow implementation and ImageNet ported weights have been compared to the 
 
 | Configuration  | Top-1 (Original) | Top-1 (Ported) | Top-5 (Original) | Top-5 (Ported) | #Params
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-| GCViT-XXTiny  | 68.79 | 68.73 | 88.52 | 88.47 | 12 |
-| GCViT-XTiny  | 70.97 | 71 | 89.8 | 89.79 | 20 | 20 |
-| GCViT-Tiny  | 72.93 | 72.9| 90.7 | 90.7 | 28 | 
-| GCViT-Small  | 73.46 | 73.5 | 91.14 | 91.08 | 51 |
-| GCViT-Base  | 74.13 | 74.16 | 91.66 | 91.69 | 90 |
+| GCViT-XXTiny  | 68.79 | 68.73 | 88.52 | 88.47 | 12M |
+| GCViT-XTiny  | 70.97 | 71 | 89.8 | 89.79 | 20 | 20M |
+| GCViT-Tiny  | 72.93 | 72.9| 90.7 | 90.7 | 28M | 
+| GCViT-Small  | 73.46 | 73.5 | 91.14 | 91.08 | 51M |
+| GCViT-Base  | 74.13 | 74.16 | 91.66 | 91.69 | 90M |
 
 Mean metrics difference: `3e-4`.
 
