@@ -10,8 +10,8 @@
 TensorFlow 2.X reimplementation of [Global Context Vision Transformers](https://arxiv.org/abs/2206.09959) [Ali Hatamizadeh](http://web.cs.ucla.edu/~ahatamiz),
 [Hongxu (Danny) Yin](https://scholar.princeton.edu/hongxu), [Jan Kautz](https://jankautz.com/) [Pavlo Molchanov](https://www.pmolchanov.com/).
 
-- Exact TensorFlow reimplementation of official Pytorch repo, including `timm` modules used by authors, preserving models and layers structure.
-- ImageNet pretrained weights ported from Pytorch official implementation.
+- Exact TensorFlow reimplementation of official PyTorch repo, including `timm` modules used by authors, preserving models and layers structure.
+- ImageNet pretrained weights ported from PyTorch official implementation.
 
 ## Table of contents
 - [Abstract](#abstract)
@@ -40,7 +40,7 @@ context self attention layers in each stage of the architecture.</sub></p>
 <div id="results"/>
 
 ## Results
-TensorFlow implementation and ImageNet ported weights have been compared to the official Pytorch implementation on [ImageNet-V2](https://www.tensorflow.org/datasets/catalog/imagenet_v2) test set.
+TensorFlow implementation and ImageNet ported weights have been compared to the official PyTorch implementation on [ImageNet-V2](https://www.tensorflow.org/datasets/catalog/imagenet_v2) test set.
 
 | Configuration  | Top-1 (Original) | Top-1 (Ported) | Top-5 (Original) | Top-5 (Ported) | #Params
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
@@ -122,7 +122,7 @@ y_pred = model(image)
 <div id="acknowledgement"/>
 
 ## Acknowledgement
-- [GCViT](https://github.com/nvlabs/gcvit) (Official Pytorch implementation)
+- [GCViT](https://github.com/nvlabs/gcvit) (Official PyTorch implementation)
 - [gcvit_tf](https://github.com/awsaf49/gcvit-tf)
 - [tfgcvit](https://github.com/shkarupa-alex/tfgcvit)
 
