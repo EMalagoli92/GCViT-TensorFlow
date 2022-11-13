@@ -191,9 +191,9 @@ class GCViT_(tf.keras.Model):
             )
         return model
 
-    def summary(self):
+    def summary(self, *args, **kwargs):
         self.__to_functional()
-        super().summary()
+        super().summary(*args, **kwargs)
 
     def plot_model(self, *args, **kwargs):
         tf.keras.utils.plot_model(model=self.__to_functional(), *args, **kwargs)
