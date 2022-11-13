@@ -96,7 +96,39 @@ model = GCViT(depths = [2, 2, 6, 2],
 ```python
 from gcvit_tensorflow import GCViT
     
-model = GCViT(configuration = "base")
+model = GCViT(configuration = "xxtiny")
+model.build((None,224,224,3))
+print(model.summary())
+```
+```
+Model: "xxtiny"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ patch_embed (PatchEmbed)    (None, 56, 56, 64)        45632     
+                                                                 
+ pos_drop (Dropout)          (None, 56, 56, 64)        0         
+                                                                 
+ levels/0 (GCViTLayer)       (None, 28, 28, 128)       185766    
+                                                                 
+ levels/1 (GCViTLayer)       (None, 14, 14, 256)       693258    
+                                                                 
+ levels/2 (GCViTLayer)       (None, 7, 7, 512)         5401104   
+                                                                 
+ levels/3 (GCViTLayer)       (None, 7, 7, 512)         5400546   
+                                                                 
+ norm (LayerNorm_)           (None, 7, 7, 512)         1024      
+                                                                 
+ avgpool (AdaptiveAveragePoo  (None, 512, 1, 1)        0         
+ ling2D)                                                         
+                                                                 
+ head (Dense_)               (None, 1000)              513000    
+                                                                 
+=================================================================
+Total params: 12,240,330
+Trainable params: 11,995,428
+Non-trainable params: 244,902
+_________________________________________________________________
 ```
 - Train from scratch the model.
 ```python    
