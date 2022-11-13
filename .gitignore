@@ -168,3 +168,6 @@ cython_debug/
 
 # Test files
 My/*
+
+# Flake config
+.flake8
