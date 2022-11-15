@@ -50,8 +50,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ env.version_VERSION }}
-          release_name: Release ${{ env.version_VERSION }}
+          tag_name: ${{ env.version_version }}
+          release_name: Release ${{ env.version_version }}
           draft: false
           prerelease: false
       - name: Upload artifact and release

@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 with open("gcvit_tensorflow/version.json", "r") as handle:
-    version = json.load(handle)["VERSION"]
+    version = json.load(handle)["version"]
 
 setup(
     name="gcvit_tensorflow",

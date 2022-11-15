@@ -24,6 +24,6 @@ np.random.seed(SEED)
 with open(
     os.path.normpath(os.path.join(os.path.dirname(__file__), "version.json")), "r"
 ) as handle:
-    __version__ = json.load(handle)["VERSION"]
+    __version__ = json.load(handle)["version"]
 
 from .models.gcvit import GCViT
