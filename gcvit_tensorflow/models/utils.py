@@ -6,11 +6,12 @@ def _to_channel_last(x: tf.Tensor) -> tf.Tensor:
     Parameters
     ----------
     x : tf.Tensor
-        Tensor of shape: (B, C, H, W)
+        Tensor of shape: (B, C, H, W).
 
     Returns
     -------
-    tf.Tensor of shape: (B, H, W, C)
+    tf.Tensor
+        Tensor of shape: (B, H, W, C).
     """
     return tf.transpose(x, perm=[0, 2, 3, 1])
 
@@ -20,11 +21,12 @@ def _to_channel_first(x: tf.Tensor) -> tf.Tensor:
     Parameters
     ----------
     x : tf.Tensor
-        Tensor of shape: (B, H, W, C)
+        Tensor of shape: (B, H, W, C).
 
     Returns
     -------
-    tf.Tensor of shape: (B, C, H, W)
+    tf.Tensor
+        Tensor of shape: (B, C, H, W).
     """
     return tf.transpose(x, perm=[0, 3, 1, 2])
 
@@ -34,13 +36,13 @@ def window_partition(x: tf.Tensor, window_size: int) -> tf.Tensor:
     Parameters
     ----------
     x : tf.Tensor
-        Tensor of shape: (B, H, W, C)
+        Tensor of shape: (B, H, W, C).
     window_size : int
         Window size.
 
     Returns
     -------
-    windows : tf.Tensor
+    tf.Tensor
         Local window features (num_windows*B, window_size, window_size, C).
     """
     input_shape = tf.shape(x)
@@ -61,7 +63,7 @@ def window_reverse(windows: tf.Tensor, window_size: int, H: int, W: int) -> tf.T
     Parameters
     ----------
     windows : tf.Tensor
-        Local window features (num_windows*B, window_size, window_size, C)
+        Local window features (num_windows*B, window_size, window_size, C).
     window_size : int
         Window size.
     H : int
@@ -71,8 +73,8 @@ def window_reverse(windows: tf.Tensor, window_size: int, H: int, W: int) -> tf.T
 
     Returns
     -------
-    x : tf.Tensor
-        Tensor of shape: (B, H, W, C)
+    tf.Tensor
+        Tensor of shape: (B, H, W, C).
     """
     B = int(tf.shape(windows)[0] / (H * W / window_size / window_size))
     x = tf.reshape(

@@ -7,16 +7,19 @@ from gcvit_tensorflow import __version__
 from gcvit_tensorflow.models.config import MODELS_CONFIG, TF_WEIGHTS_URL
 from gcvit_tensorflow.models.layers.gcvit_layer import GCViTLayer
 from gcvit_tensorflow.models.layers.patch_embed import PatchEmbed
-from gcvit_tensorflow.models.layers.utils import Dense_, Identity_, LayerNorm_
+from gcvit_tensorflow.models.layers.utils import (
+    Identity_,
+    LayerNorm_,
+    Linear_,
+    TruncNormalInitializer_,
+)
 from gcvit_tensorflow.models.utils import _to_channel_first
 
 
 @tf.keras.utils.register_keras_serializable(package="gcvit")
 class GCViT_(tf.keras.Model):
-    """
-    GCViT based on: "Hatamizadeh et al.,
-    Global Context Vision Transformers <https://arxiv.org/abs/2206.09959>"
-    """
+    """GCViT based on: "Hatamizadeh et al., Global Context Vision Transformers
+    <https://arxiv.org/abs/2206.09959>"."""
 
     def __init__(
         self,
@@ -73,24 +76,26 @@ class GCViT_(tf.keras.Model):
             The default is None.
         drop_rate : float, optional
             Dropout rate.
-            The default is 0.
+            The default is 0.0.
         attn_drop_rate : float, optional
             Attention dropout rate.
-            The default is 0.
+            The default is 0.0.
         layer_scale : Optional[Union[int,float]], optional
             Layer scaling coefficient.
             The default is None.
         classifier_activation: Optional[str], optional
             String name for a tf.keras.layers.Activation layer.
             The default is None.
-        data_format: Literal["channels_first","channels_last"], optional
-            A string, one of channels_last (default) or channels_first.
-            The ordering of the dimensions in the inputs. channels_last
-            corresponds to inputs with shape
+        data_format : Literal["channels_first", "channels_last"], optional
+            A string, one of "channels_last" or "channels_first".
+            The ordering of the dimensions in the inputs.
+            "channels_last" corresponds to inputs with shape:
             (batch_size, height, width, channels)
-            while channels_first corresponds to inputs with shape
+            while "channels_first" corresponds to inputs with shape
             (batch_size, channels, height, width).
             The default is tf.keras.backend.image_data_format().
+        **kwargs
+            Additional keyword arguments.
         """
         super().__init__(**kwargs)
         self.dim = dim
@@ -143,7 +148,13 @@ class GCViT_(tf.keras.Model):
             output_size=1, data_format="channels_first", name="avgpool"
         )
         self.head = (
-            Dense_(num_features, self.num_classes, name="head")
+            Linear_(
+                in_features=num_features,
+                units=self.num_classes,
+                kernel_initializer=TruncNormalInitializer_(std=0.02),
+                bias_initializer=tf.keras.initializers.Zeros(),
+                name="head",
+            )
             if self.num_classes > 0
             else Identity_(name="head")
         )
@@ -165,7 +176,7 @@ class GCViT_(tf.keras.Model):
         x = tf.reshape(x, [-1, tf.math.reduce_prod(tf.shape(x[0]))])
         return x
 
-    def call(self, inputs, **kwargs):
+    def call(self, inputs, *args, **kwargs):
         if self.data_format == "channels_last":
             inputs = _to_channel_first(inputs)
         x = self.call_features(inputs)
@@ -180,13 +191,11 @@ class GCViT_(tf.keras.Model):
     def __to_functional(self):
         if self.built:
             x = tf.keras.layers.Input(shape=(self._build_input_shape[1:]))
-            model = tf.keras.Model(
-                inputs=[x], outputs=self.call(x, training=False), name=self.name
-            )
+            model = tf.keras.Model(inputs=[x], outputs=self.call(x), name=self.name)
         else:
             raise ValueError(
                 "This model has not yet been built. "
-                "Build the model first by calling `build()` or "
+                "Build the model first by calling build() or "
                 "by calling the model on a batch of data."
             )
         return model
@@ -235,32 +244,34 @@ def GCViT(
     pretrained: bool = False,
     **kwargs,
 ) -> tf.keras.Model:
-    """
-    Wrapper function for GCViT model.
+    """Wrapper function for GCViT model.
 
     Parameters
     ----------
-    configuration : Optional[Literal['xxtiny',
-                                     'xtiny',
-                                     'tiny',
-                                     'small',
-                                     'base']], optional
+    configuration : Optional[Literal["xxtiny",
+                                     "xtiny",
+                                     "tiny",
+                                     "small",
+                                     "base"]], optional
         Name of GCViT predefined configuration.
-        Possible values are: xxtiny, xtiny, tiny, small, base
+        Possible values are: "xxtiny", "xtiny", "tiny", "small", "base".
         The default is None.
     pretrained : bool, optional
         Whether to use ImageNet pretrained weights.
         The default is False.
+    **kwargs
+        Additional keyword arguments.
 
     Raises
     ------
     KeyError
         If choosen configuration not in:
-        ['xxtiny','xtiny','tiny','small','base']
+        ["xxtiny","xtiny","tiny","small","base"]
 
     Returns
     -------
-    GCViT model (tf.keras.Model).
+    tf.keras.Model
+        GCViT model.
     """
     if configuration is not None:
         if configuration in MODELS_CONFIG.keys():
@@ -282,8 +293,8 @@ def GCViT(
             return model
         else:
             raise KeyError(
-                f"{configuration} configuration not found. Valid values are: "
-                "xxtiny, xtiny, tiny, small, base."
+                f"{configuration} configuration not found. "
+                f"Valid values are: {list(MODELS_CONFIG.keys())}"
             )
     else:
         return GCViT_(**kwargs)

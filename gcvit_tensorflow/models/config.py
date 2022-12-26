@@ -50,4 +50,6 @@ MODELS_CONFIG: Dict[str, dict] = {
     },
 }
 
-TF_WEIGHTS_URL = "https://github.com/EMalagoli92/GCViT-TensorFlow/releases/download"
+TF_WEIGHTS_URL: str = (
+    "https://github.com/EMalagoli92/GCViT-TensorFlow/releases/download"
+)

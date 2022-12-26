@@ -78,26 +78,27 @@ Tested on *Ubuntu 20.04.4 LTS x86_64*, *python 3.9.7*.
 ```python
 from gcvit_tensorflow import GCViT
 
-# Define a custom model configuration
-model = GCViT(depths = [2, 2, 6, 2],
-              num_heads = [2, 4, 8, 16],
-              window_size = [7, 7, 14, 7],
-              dim = 64,
-              resolution = 224,
-              in_chans = 3,
-              mlp_ratio = 3,
-              drop_path_rate = 0.2,
-              data_format = "channels_last",
-              num_classes = 100,
-              classifier_activation = "softmax"
-              )
+# Define a custom GCViT configuration
+model = GCViT(
+    depths=[2, 2, 6, 2],
+    num_heads=[2, 4, 8, 16],
+    window_size=[7, 7, 14, 7],
+    dim=64,
+    resolution=224,
+    in_chans=3,
+    mlp_ratio=3,
+    drop_path_rate=0.2,
+    data_format="channels_last",
+    num_classes=100,
+    classifier_activation="softmax",
+)
 ```
 - Use a predefined GCViT configuration.
 ```python
 from gcvit_tensorflow import GCViT
-    
-model = GCViT(configuration = "xxtiny")
-model.build((None,224,224,3))
+
+model = GCViT(configuration="xxtiny")
+model.build((None, 224, 224, 3))
 print(model.summary())
 ```
 ```
@@ -122,7 +123,7 @@ _________________________________________________________________
  avgpool (AdaptiveAveragePoo  (None, 512, 1, 1)        0         
  ling2D)                                                         
                                                                  
- head (Dense_)               (None, 1000)              513000    
+ head (Linear_)              (None, 1000)              513000    
                                                                  
 =================================================================
 Total params: 12,240,330
@@ -133,21 +134,19 @@ _________________________________________________________________
 - Train from scratch the model.
 ```python    
 # Example
-model.compile(optimizer="sgd",
-              loss = "sparse_categorical_crossentropy",
-              metrics = ["accuracy","sparse_top_k_categorical_accuracy"]
-              )
-model.fit(x,y)              
+model.compile(
+    optimizer="sgd",
+    loss="sparse_categorical_crossentropy",
+    metrics=["accuracy", "sparse_top_k_categorical_accuracy"],
+)
+model.fit(x, y)
 ```
 - Use ported ImageNet pretrained weights
 ```python
 # Example
 from gcvit_tensorflow import GCViT
 
-model = GCViT(configuration = "base",
-              pretrained = True, 
-              classifier_activation = "softmax"
-             )
+model = GCViT(configuration="base", pretrained=True, classifier_activation="softmax")
 y_pred = model(image)
 ```
 

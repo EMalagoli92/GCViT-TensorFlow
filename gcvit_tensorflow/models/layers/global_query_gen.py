@@ -6,10 +6,8 @@ from gcvit_tensorflow.models.utils import _to_channel_last
 
 @tf.keras.utils.register_keras_serializable(package="gcvit")
 class GlobalQueryGen(tf.keras.layers.Layer):
-    """
-    Global query generator based on: "Hatamizadeh et al.,
-    Global Context Vision Transformers <https://arxiv.org/abs/2206.09959>"
-    """
+    """Global query generator based on: "Hatamizadeh et al., Global Context
+    Vision Transformers <https://arxiv.org/abs/2206.09959>"."""
 
     def __init__(
         self,
@@ -30,6 +28,8 @@ class GlobalQueryGen(tf.keras.layers.Layer):
             Window size.
         num_heads : int
             Number of heads.
+        **kwargs
+            Additional keyword arguments.
 
         For instance, repeating log(56/7) = 3 blocks, with input window
         dimension 56 and output window dimension 7 at down-sampling ratio 2.
@@ -73,7 +73,7 @@ class GlobalQueryGen(tf.keras.layers.Layer):
         self.dim_head = self.dim // self.num_heads
         super().build(input_shape)
 
-    def call(self, inputs, **kwargs):
+    def call(self, inputs, *args, **kwargs):
         x = inputs
         for layer in self.to_q_global:
             x = layer(x)

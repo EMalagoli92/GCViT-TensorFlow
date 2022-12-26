@@ -1,17 +1,14 @@
-import os
-
-os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
-import tensorflow as tf
-
-tf.get_logger().setLevel("ERROR")
-import tensorflow.experimental.numpy as tnp
-
-tnp.experimental_enable_numpy_behavior()
+__author__ = "EMalagoli92"
 import json
+import os
 import random
 
 import numpy as np
+import tensorflow as tf
+import tensorflow.experimental.numpy as tnp
 from tensorflow.python.framework import random_seed
+
+tnp.experimental_enable_numpy_behavior()
 
 # Set Seed
 SEED = 123

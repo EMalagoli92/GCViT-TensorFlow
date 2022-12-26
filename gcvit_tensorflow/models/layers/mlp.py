@@ -3,14 +3,12 @@ from typing import Optional
 import tensorflow as tf
 import tensorflow_addons as tfa
 
-from gcvit_tensorflow.models.layers.utils import Dense_
+from gcvit_tensorflow.models.layers.utils import Linear_, TruncNormalInitializer_
 
 
 @tf.keras.utils.register_keras_serializable(package="gcvit")
 class Mlp(tf.keras.layers.Layer):
-    """
-    Multi-Layer Perceptron (MLP) block
-    """
+    """Multi-Layer Perceptron (MLP) block."""
 
     def __init__(
         self,
@@ -33,11 +31,13 @@ class Mlp(tf.keras.layers.Layer):
             Output features dimension.
             The default is None.
         act_layer : str, optional
-            Activation layer.
+            Name of activation layer.
             The default is "gelu".
-        drop : int, optional
+        drop : float, optional
             Dropout rate.
-            The default is 0.
+            The default is 0.0.
+        **kwargs
+            Additional keyword arguments.
         """
         super().__init__(**kwargs)
         self.in_features = in_features
@@ -49,8 +49,12 @@ class Mlp(tf.keras.layers.Layer):
     def build(self, input_shape):
         self._out_features = self.out_features or self.in_features
         self._hidden_features = self.hidden_features or self.in_features
-        self.fc1 = Dense_(
-            in_features=self.in_features, units=self._hidden_features, name="fc1"
+        self.fc1 = Linear_(
+            in_features=self.in_features,
+            units=self._hidden_features,
+            kernel_initializer=TruncNormalInitializer_(std=0.02),
+            bias_initializer=tf.keras.initializers.Zeros(),
+            name="fc1",
         )
         if self.act_layer == "gelu":
             self.act = tfa.layers.GELU(approximate=False, name="act")
@@ -58,13 +62,17 @@ class Mlp(tf.keras.layers.Layer):
             self.act = tf.keras.layers.Activation(
                 self.act_layer, dtype=self.dtype, name="act"
             )
-        self.fc2 = Dense_(
-            in_features=self._hidden_features, units=self._out_features, name="fc2"
+        self.fc2 = Linear_(
+            in_features=self._hidden_features,
+            units=self._out_features,
+            kernel_initializer=TruncNormalInitializer_(std=0.02),
+            bias_initializer=tf.keras.initializers.Zeros(),
+            name="fc2",
         )
         self._drop = tf.keras.layers.Dropout(rate=self.drop, name="drop")
         super().build(input_shape)
 
-    def call(self, inputs, **kwargs):
+    def call(self, inputs, *args, **kwargs):
         x = self.fc1(inputs)
         x = self.act(x)
         x = self._drop(x)

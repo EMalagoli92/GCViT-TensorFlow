@@ -7,10 +7,8 @@ from gcvit_tensorflow.models.layers.utils import Conv2d_, MaxPool2d_
 
 @tf.keras.utils.register_keras_serializable(package="gcvit")
 class FeatExtract(tf.keras.layers.Layer):
-    """
-    Feature extraction block based on: "Hatamizadeh et al.,
-    Global Context Vision Transformers <https://arxiv.org/abs/2206.09959>"
-    """
+    """Feature extraction block based on: "Hatamizadeh et al., Global Context
+    Vision Transformers <https://arxiv.org/abs/2206.09959>"."""
 
     def __init__(self, dim: int, keep_dim: bool = False, **kwargs):
         """
@@ -21,6 +19,8 @@ class FeatExtract(tf.keras.layers.Layer):
         keep_dim : bool, optional
             Bool argument for maintaining the resolution.
             The default is False.
+        **kwargs
+            Additional keyword arguments.
         """
         super().__init__(**kwargs)
         self.dim = dim
@@ -52,7 +52,7 @@ class FeatExtract(tf.keras.layers.Layer):
             self.pool = MaxPool2d_(kernel_size=3, stride=2, padding=1, name="pool")
         super().build(input_shape)
 
-    def call(self, inputs, **kwargs):
+    def call(self, inputs, *args, **kwargs):
         y = self.conv1(inputs)
         y = self.act1(y)
         y = self.se(y)

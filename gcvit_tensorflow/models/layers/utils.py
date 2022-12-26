@@ -9,9 +9,7 @@ from gcvit_tensorflow.models.utils import _to_channel_first, _to_channel_last
 
 
 def norm_cdf(x):
-    """
-    Computes standard normal cumulative distribution.
-    """
+    """Computes standard normal cumulative distribution."""
     return (1.0 + math.erf(x / math.sqrt(2.0))) / 2.0
 
 
@@ -21,11 +19,11 @@ def trunc_normal_(
     std: float = 1.0,
     a: float = -2.0,
     b: float = 2.0,
+    dtype: Union[str, tf.dtypes.DType] = tf.float32,
 ) -> tf.Tensor:
-    """
-    TF2/Keras implementation of timm.models.layers.weight_init.trunc_normal_.
-    Create a tf.Tensor filled with values drawn from a truncated normal
-    distribution.
+    """TF2/Keras implementation of
+    timm.models.layers.weight_init.trunc_normal_. Create a tf.Tensor filled
+    with values drawn from a truncated normal distribution.
 
     Parameters
     ----------
@@ -33,21 +31,24 @@ def trunc_normal_(
         Shape of the output tensor.
     mean : float, optional
         The mean of the normal distribution.
-        The default is 0.
+        The default is 0.0.
     std : float, optional
         The standard deviation of the normal distribution.
-        The default is 1.
+        The default is 1.0.
     a : float, optional
         The minimum cutoff value.
-        The default is -2.
+        The default is -2.0.
     b : float, optional
         The maximum cutoff value.
-        The default is 2.
+        The default is 2.0.
+    dtype: dtype: Union[str,tf.dtypes.DType], optional
+        Dtype of the tensor.
+        The default is tf.float32.
 
     Returns
     -------
-    tensor : tf.Tensor
-        tf.Tensor filled with values drawn from a truncated normal
+    tf.Tensor
+        Tensor filled with values drawn from a truncated normal
         distribution.
     """
     if (mean < a - 2 * std) or (mean > b + 2 * std):
@@ -56,21 +57,19 @@ def trunc_normal_(
             "The distribution of values may be incorrect.",
             stacklevel=2,
         )
-    l = norm_cdf((a - mean) / std)
-    u = norm_cdf((b - mean) / std)
-    tensor = tf.random.uniform(shape=shape, minval=2 * l - 1, maxval=2 * u - 1)
+    l_ = norm_cdf((a - mean) / std)
+    u_ = norm_cdf((b - mean) / std)
+    tensor = tf.random.uniform(shape=shape, minval=2 * l_ - 1, maxval=2 * u_ - 1)
     tensor = tf.math.erfinv(tensor)
     tensor = tf.math.multiply(tensor, std * math.sqrt(2.0))
     tensor = tf.math.add(tensor, mean)
     tensor = tf.clip_by_value(tensor, clip_value_min=a, clip_value_max=b)
-    return tensor
+    return tf.cast(tensor, dtype)
 
 
 @tf.keras.utils.register_keras_serializable(package="gcvit")
 class TruncNormalInitializer_(tf.keras.initializers.Initializer):
-    """
-    Initializer version of the previous trunc_normal_.
-    """
+    """Initializer version of the trunc_normal_ function."""
 
     def __init__(
         self, mean: float = 0.0, std: float = 1.0, a: float = -2.0, b: float = 2.0
@@ -80,16 +79,16 @@ class TruncNormalInitializer_(tf.keras.initializers.Initializer):
         ----------
         mean : float, optional
             The mean of the normal distribution.
-            The default is 0.
+            The default is 0.0.
         std : float, optional
             The standard deviation of the normal distribution.
-            The default is 1.
+            The default is 1.0.
         a : float, optional
             The minimum cutoff value.
-            The default is -2.
+            The default is -2.0.
         b : float, optional
             The maximum cutoff value.
-            The default is 2.
+            The default is 2.0.
         """
         self.mean = mean
         self.std = std
@@ -97,19 +96,15 @@ class TruncNormalInitializer_(tf.keras.initializers.Initializer):
         self.b = b
 
     def __call__(self, shape, dtype=None, **kwargs):
-        return trunc_normal_(shape, self.mean, self.std, self.a, self.b)
+        return trunc_normal_(shape, self.mean, self.std, self.a, self.b, dtype)
 
     def get_config(self):
         return {"mean": self.mean, "std": self.std, "a": self.a, "b": self.b}
 
 
 @tf.keras.utils.register_keras_serializable(package="gcvit")
-class Dense_(tf.keras.layers.Dense):
-    """
-    Custom implementation of tf.keras.layers.Dense with
-    kernel_initializer and bias initializer as in the original gcvit
-    implementation.
-    """
+class Linear_(tf.keras.layers.Dense):
+    """TF2/Keras implementation of torch.nn.Linear."""
 
     def __init__(
         self,
@@ -118,10 +113,10 @@ class Dense_(tf.keras.layers.Dense):
         use_bias: bool = True,
         kernel_initializer: Union[
             tf.keras.initializers.Initializer, str, dict
-        ] = TruncNormalInitializer_(std=0.02),
+        ] = "pytorch_uniform",
         bias_initializer: Union[
             tf.keras.initializers.Initializer, str, dict
-        ] = tf.keras.initializers.Zeros(),
+        ] = "pytorch_uniform",
         **kwargs
     ):
         """
@@ -140,14 +135,16 @@ class Dense_(tf.keras.layers.Dense):
                                   ], optional
             Initializer for the kernel weights matrix.
             If "pytorch_uniform", it will be set to Pytorch Uniform Initializer.
-            The default is TruncNormalInitializer_(std = .02).
+            The default is "pytorch_uniform".
         bias_initializer : Union[tf.keras.initializers.Initializer,
                                 str,
                                 dict
                                 ], optional
             Initializer for the bias vector.
             If "pytorch_uniform", it will be set to Pytorch Uniform Initializer.
-            The default is tf.keras.initializers.Zeros()
+            The default is "pytorch_uniform".
+        **kwargs
+            Additional keyword arguments.
         """
         self.in_features = in_features
 
@@ -193,9 +190,7 @@ class Dense_(tf.keras.layers.Dense):
 
 @tf.keras.utils.register_keras_serializable(package="gcvit")
 class Conv2d_(tf.keras.layers.Layer):
-    """
-    TF2/Keras implementation of torch.nn.Conv2d.
-    """
+    """TF2/Keras implementation of torch.nn.Conv2d."""
 
     def __init__(
         self,
@@ -250,6 +245,8 @@ class Conv2d_(tf.keras.layers.Layer):
             Initializer for the bias vector.
             If "pytorch_uniform", it will be set to Pytorch Uniform Initializer.
             The default is "pytorch_uniform".
+        **kwargs
+            Additional keyword arguments.
         """
         super().__init__(**kwargs)
         self.in_channels = in_channels
@@ -308,7 +305,7 @@ class Conv2d_(tf.keras.layers.Layer):
         limit = math.sqrt(k)
         return {"minval": -limit, "maxval": limit}
 
-    def call(self, inputs, **kwargs):
+    def call(self, inputs, *args, **kwargs):
         if self.data_format == "channels_last":
             inputs = _to_channel_last(inputs)
         if self.padding > 0:
@@ -344,9 +341,7 @@ class Conv2d_(tf.keras.layers.Layer):
 
 @tf.keras.utils.register_keras_serializable(package="gcvit")
 class LayerNorm_(tf.keras.layers.LayerNormalization):
-    """
-    TF2/Keras implementation of torch.nn.LayerNorm.
-    """
+    """TF2/Keras implementation of torch.nn.LayerNorm."""
 
     def __init__(
         self, normalized_shape: Union[int, tuple], epsilon: float = 1e-5, **kwargs
@@ -355,14 +350,16 @@ class LayerNorm_(tf.keras.layers.LayerNormalization):
         Parameters
         ----------
         normalized_shape : Union[int,tuple]
-            input shape from an expected input of size
-            [∗ x normalized_shape[0] x normalized_shape[1] x ... xnormalized_shape[−1]]
+            Input shape from an expected input of size:
+            [∗ x normalized_shape[0] x normalized_shape[1] x ... x normalized_shape[−1]]
             If a single integer is used, it is treated as a singleton list,
             and this module will normalize over the last dimension which is
             expected to be of that specific size.
         epsilon: float, optional
             A value added to the denominator for numerical stability.
             The default is 1e-5.
+        **kwargs
+            Additional keyword arguments.
         """
         self.normalized_shape = normalized_shape
         self.epsilon = epsilon
@@ -387,9 +384,7 @@ class LayerNorm_(tf.keras.layers.LayerNormalization):
 
 @tf.keras.utils.register_keras_serializable(package="gcvit")
 class MaxPool2d_(tf.keras.layers.Layer):
-    """
-    TF2/Keras implementation of torch.nn.MaxPool2d.
-    """
+    """TF2/Keras implementation of torch.nn.MaxPool2d."""
 
     def __init__(
         self,
@@ -407,6 +402,8 @@ class MaxPool2d_(tf.keras.layers.Layer):
             The stride of the window.
         padding : int
             Implicit zero padding to be added on both sides.
+        **kwargs
+            Additional keyword arguments.
         """
         super().__init__(**kwargs)
         self.kernel_size = kernel_size
@@ -429,7 +426,7 @@ class MaxPool2d_(tf.keras.layers.Layer):
             data_format=self.data_format,
         )
 
-    def call(self, inputs, **kwargs):
+    def call(self, inputs, *args, **kwargs):
         if self.data_format == "channels_last":
             x = _to_channel_last(inputs)
         else:
@@ -455,10 +452,20 @@ class MaxPool2d_(tf.keras.layers.Layer):
 
 @tf.keras.utils.register_keras_serializable(package="gcvit")
 class Identity_(tf.keras.layers.Layer):
+    """TF2/Keras implementation of torch.nn.Identity."""
+
     def __init__(self, *args, **kwargs):
+        """
+        Parameters
+        ----------
+        *args
+            Any argument (unused).
+        **kwargs
+            Any keyword argument (unused).
+        """
         super().__init__(**kwargs)
 
-    def call(self, inputs):
+    def call(self, inputs, *args, **kwargs):
         return inputs
 
     def get_config(self):
@@ -467,12 +474,31 @@ class Identity_(tf.keras.layers.Layer):
 
 
 def drop_path(
-    x, drop_prob: float = 0.0, training: bool = False, scale_by_keep: bool = True
-):
-    """
-    TF2/Keras implementation of timm.models.layers.drop_path.
-    Drop paths (Stochastic Depth) per sample (when applied in main path
-    of residual blocks)
+    x: tf.Tensor,
+    drop_prob: float = 0.0,
+    training: bool = False,
+    scale_by_keep: bool = True,
+) -> tf.Tensor:
+    """TF2/Keras implementation of timm.models.layers.drop_path.
+
+    Parameters
+    ----------
+    x : tf.Tensor
+        Input tensor.
+    drop_prob : float, optional
+        Drop path probability.
+        The default is 0.0.
+    training : bool, optional
+        Whether in training mode.
+        The default is False.
+    scale_by_keep : bool, optional
+        To scale outputs left or not.
+        The default is True.
+
+    Returns
+    -------
+    tf.Tensor
+        Output Tensor.
     """
     if drop_prob == 0.0 or not training:
         return x
@@ -490,18 +516,30 @@ def drop_path(
 
 @tf.keras.utils.register_keras_serializable(package="gcvit")
 class DropPath_(tf.keras.layers.Layer):
-    """
-    TF2/Keras implementation of timm.models.layers.DropPath.
-    Drop paths (Stochastic Depth) per sample  (when applied in main path
+    """TF2/Keras implementation of timm.models.layers.DropPath.
+
+    Drop paths (Stochastic Depth) per sample (when applied in main path
     of residual blocks).
     """
 
     def __init__(self, drop_prob: float = 0.0, scale_by_keep: bool = True, **kwargs):
+        """
+        Parameters
+        ----------
+        drop_prob : float, optional
+            Drop path probability.
+            The default is 0.0.
+        scale_by_keep : bool, optional
+            To scale outputs left or not.
+            The default is True.
+        **kwargs
+            Additional keyword arguments.
+        """
         super().__init__(**kwargs)
         self.drop_prob = drop_prob
         self.scale_by_keep = scale_by_keep
 
-    def call(self, inputs, training=None, **kwargs):
+    def call(self, inputs, training=None, *args, **kwargs):
         return drop_path(inputs, self.drop_prob, training, self.scale_by_keep)
 
     def get_config(self):

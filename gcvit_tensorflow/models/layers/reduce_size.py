@@ -8,10 +8,8 @@ from gcvit_tensorflow.models.utils import _to_channel_first, _to_channel_last
 
 @tf.keras.utils.register_keras_serializable(package="gcvit")
 class ReduceSize(tf.keras.layers.Layer):
-    """
-    Down-sampling block based on: "Hatamizadeh et al.,
-    Global Context Vision Transformers <https://arxiv.org/abs/2206.09959>"
-    """
+    """Down-sampling block based on: "Hatamizadeh et al., Global Context Vision
+    Transformers <https://arxiv.org/abs/2206.09959>"."""
 
     def __init__(self, dim: int, keep_dim: bool = False, **kwargs):
         """
@@ -22,6 +20,8 @@ class ReduceSize(tf.keras.layers.Layer):
         keep_dim : bool, optional
             Bool argument for maintaining the resolution.
             The default is False.
+        **kwargs
+            Additional keyword arguments.
         """
         super().__init__(**kwargs)
         self.dim = dim
@@ -66,7 +66,7 @@ class ReduceSize(tf.keras.layers.Layer):
         self.norm1 = LayerNorm_(normalized_shape=self.dim, name="norm1")
         super().build(input_shape)
 
-    def call(self, inputs, **kwargs):
+    def call(self, inputs, *args, **kwargs):
         x = self.norm1(inputs)
         x = _to_channel_first(x)
         y = self.conv1(x)

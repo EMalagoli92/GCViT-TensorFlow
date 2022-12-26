@@ -3,15 +3,13 @@ from typing import Optional
 import tensorflow as tf
 import tensorflow.experimental.numpy as tnp
 
-from gcvit_tensorflow.models.layers.utils import Dense_, TruncNormalInitializer_
+from gcvit_tensorflow.models.layers.utils import Linear_, TruncNormalInitializer_
 
 
 @tf.keras.utils.register_keras_serializable(package="gcvit")
 class WindowAttentionGlobal(tf.keras.layers.Layer):
-    """
-    Global window attention based on: "Hatamizadeh et al.,
-    Global Context Vision Transformers <https://arxiv.org/abs/2206.09959>"
-    """
+    """Global window attention based on: "Hatamizadeh et al., Global Context
+    Vision Transformers <https://arxiv.org/abs/2206.09959>"."""
 
     def __init__(
         self,
@@ -37,14 +35,16 @@ class WindowAttentionGlobal(tf.keras.layers.Layer):
             Bool argument for query, key, value learnable bias.
             The default is True.
         qk_scale : Optional[bool], optional
-            Bool argument to scaling query, key
+            Bool argument to scaling query, key.
             The default is None.
         attn_drop : float, optional
             Attention dropout rate.
-            The default is 0.
+            The default is 0.0.
         proj_drop : float, optional
             Output dropout rate.
-            The default is 0.
+            The default is 0.0.
+        **kwargs
+            Additional keyword arguments.
         """
         super().__init__(**kwargs)
         self.dim = dim
@@ -78,11 +78,22 @@ class WindowAttentionGlobal(tf.keras.layers.Layer):
             trainable=False,
             dtype=relative_position_index.dtype,
         )
-        self.qkv = Dense_(
-            in_features=self.dim, units=self.dim * 2, use_bias=self.qkv_bias, name="qkv"
+        self.qkv = Linear_(
+            in_features=self.dim,
+            units=self.dim * 2,
+            use_bias=self.qkv_bias,
+            kernel_initializer=TruncNormalInitializer_(std=0.02),
+            bias_initializer=tf.keras.initializers.Zeros(),
+            name="qkv",
         )
         self._attn_drop = tf.keras.layers.Dropout(rate=self.attn_drop, name="attn_drop")
-        self.proj = Dense_(in_features=self.dim, units=self.dim, name="proj")
+        self.proj = Linear_(
+            in_features=self.dim,
+            units=self.dim,
+            kernel_initializer=TruncNormalInitializer_(std=0.02),
+            bias_initializer=tf.keras.initializers.Zeros(),
+            name="proj",
+        )
         self._proj_drop = tf.keras.layers.Dropout(rate=self.proj_drop, name="proj_drop")
         self.relative_position_bias_table = self.add_weight(
             name="relative_position_bias_table",
@@ -97,7 +108,7 @@ class WindowAttentionGlobal(tf.keras.layers.Layer):
         self.softmax = tf.keras.layers.Softmax(axis=-1, name="softmax")
         super().build(input_shape)
 
-    def call(self, inputs, q_global, **kwargs):
+    def call(self, inputs, q_global, *args, **kwargs):
         input_shape = tf.shape(inputs)
         B_ = input_shape[0]
         N = input_shape[1]

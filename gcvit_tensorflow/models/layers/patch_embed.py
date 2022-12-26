@@ -7,10 +7,8 @@ from gcvit_tensorflow.models.utils import _to_channel_last
 
 @tf.keras.utils.register_keras_serializable(package="gcvit")
 class PatchEmbed(tf.keras.layers.Layer):
-    """
-    Patch embedding block based on: "Hatamizadeh et al.,
-    Global Context Vision Transformers <https://arxiv.org/abs/2206.09959>"
-    """
+    """Patch embedding block based on: "Hatamizadeh et al., Global Context
+    Vision Transformers <https://arxiv.org/abs/2206.09959>"."""
 
     def __init__(self, in_chans: int = 3, dim: int = 96, **kwargs):
         """
@@ -22,6 +20,8 @@ class PatchEmbed(tf.keras.layers.Layer):
         dim : int, optional
             Feature size dimension.
             The default is 96.
+        **kwargs
+            Additional keyword arguments.
         """
         super().__init__(**kwargs)
         self.in_chans = in_chans
@@ -39,7 +39,7 @@ class PatchEmbed(tf.keras.layers.Layer):
         self.conv_down = ReduceSize(dim=self.dim, keep_dim=True, name="conv_down")
         super().build(input_shape)
 
-    def call(self, inputs, **kwargs):
+    def call(self, inputs, *args, **kwargs):
         x = self.proj(inputs)
         x = _to_channel_last(x)
         x = self.conv_down(x)

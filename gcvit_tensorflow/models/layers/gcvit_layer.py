@@ -10,10 +10,8 @@ from gcvit_tensorflow.models.utils import _to_channel_first
 
 @tf.keras.utils.register_keras_serializable(package="gcvit")
 class GCViTLayer(tf.keras.layers.Layer):
-    """
-    GCViT layer based on: "Hatamizadeh et al.,
-    Global Context Vision Transformers <https://arxiv.org/abs/2206.09959>"
-    """
+    """GCViT layer based on: "Hatamizadeh et al., Global Context Vision
+    Transformers <https://arxiv.org/abs/2206.09959>"."""
 
     def __init__(
         self,
@@ -50,7 +48,7 @@ class GCViTLayer(tf.keras.layers.Layer):
             The default is True.
         mlp_ratio : float, optional
             MLP ratio.
-            The default is 4.
+            The default is 4.0.
         qkv_bias : bool, optional
             Bool argument for query, key, value learnable bias.
             The default is True.
@@ -59,16 +57,18 @@ class GCViTLayer(tf.keras.layers.Layer):
             The default is None.
         drop : float, optional
             Dropout rate.
-            The default is 0.
+            The default is 0.0.
         attn_drop : float, optional
             Attention dropout rate.
-            The default is 0.
+            The default is 0.0.
         drop_path : Union[List[float],float], optional
             Drop path rate.
-            The default is 0.
+            The default is 0.0.
         layer_scale : Optional[Union[int,float]], optional
             Scaling coefficient.
             The default is None.
+        **kwargs
+            Additional keyword arguments.
         """
         super().__init__(**kwargs)
         self.dim = dim
@@ -121,7 +121,7 @@ class GCViTLayer(tf.keras.layers.Layer):
         )
         super().build(input_shape)
 
-    def call(self, inputs, **kwargs):
+    def call(self, inputs, *args, **kwargs):
         q_global = self.q_global_gen(_to_channel_first(inputs))
         x = inputs
         for blk in self.blocks:

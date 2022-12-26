@@ -11,10 +11,8 @@ from gcvit_tensorflow.models.utils import window_partition, window_reverse
 
 @tf.keras.utils.register_keras_serializable(package="gcvit")
 class GCViTBlock(tf.keras.layers.Layer):
-    """
-    GCViT block based on: "Hatamizadeh et al.,
-    Global Context Vision Transformers <https://arxiv.org/abs/2206.09959>"
-    """
+    """GCViT block based on: "Hatamizadeh et al., Global Context Vision
+    Transformers <https://arxiv.org/abs/2206.09959>"."""
 
     def __init__(
         self,
@@ -49,7 +47,7 @@ class GCViTBlock(tf.keras.layers.Layer):
             The default is 7.
         mlp_ratio : float, optional
             MLP ratio.
-            The default is 4.
+            The default is 4.0.
         qkv_bias : bool, optional
             Bool argument for query, key, value learnable bias.
             The default is True.
@@ -58,15 +56,15 @@ class GCViTBlock(tf.keras.layers.Layer):
             The default is None.
         drop : float, optional
             Dropout rate.
-            The default is 0.
+            The default is 0.0.
         attn_drop : float, optional
             Attention dropout rate.
-            The default is 0.
+            The default is 0.0.
         drop_path : float, optional
             Drop path rate.
-            The default is 0.
+            The default is 0.0.
         act_layer : str, optional
-            Activation Layer.
+            Name of activation layer.
             The default is "gelu".
         attention :  Literal["WindowAttention",
                            "WindowAttentionGlobal"
@@ -76,6 +74,8 @@ class GCViTBlock(tf.keras.layers.Layer):
         layer_scale : Optional[Union[int,float]], optional
             Layer scaling coefficient.
             The default is None.
+        **kwargs
+            Additional keyword arguments.
         """
         super().__init__(**kwargs)
         self.dim = dim
@@ -150,7 +150,7 @@ class GCViTBlock(tf.keras.layers.Layer):
         )
         super().build(input_shape)
 
-    def call(self, inputs, q_global, training=None, **kwargs):
+    def call(self, inputs, q_global, training=None, *args, **kwargs):
         input_shape = tf.shape(inputs)
         H = input_shape[1]
         W = input_shape[2]
