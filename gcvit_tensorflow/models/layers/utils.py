@@ -69,7 +69,8 @@ def trunc_normal_(
 
 @tf.keras.utils.register_keras_serializable(package="gcvit")
 class TruncNormalInitializer_(tf.keras.initializers.Initializer):
-    """Initializer version of the trunc_normal_ function."""
+    """TF2/Keras initializer version of
+    timm.models.layers.weight_init.trunc_normal_."""
 
     def __init__(
         self, mean: float = 0.0, std: float = 1.0, a: float = -2.0, b: float = 2.0
