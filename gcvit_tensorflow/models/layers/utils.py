@@ -177,13 +177,13 @@ class Linear_(tf.keras.layers.Dense):
             {
                 "in_features": self.in_features,
                 "units": self.units,
+                "use_bias": self.use_bias,
                 "kernel_initializer": tf.keras.initializers.serialize(
                     self.kernel_initializer
                 ),
                 "bias_initializer": tf.keras.initializers.serialize(
                     self.bias_initializer
                 ),
-                "use_bias": self.use_bias,
             }
         )
         return config
