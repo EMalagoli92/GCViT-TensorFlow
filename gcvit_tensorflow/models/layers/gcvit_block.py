@@ -66,12 +66,10 @@ class GCViTBlock(tf.keras.layers.Layer):
         act_layer : str, optional
             Name of activation layer.
             The default is "gelu".
-        attention : Literal["WindowAttention",
-                           "WindowAttentionGlobal"
-                           ], optional
+        attention : Literal["WindowAttention", "WindowAttentionGlobal"], optional
             Attention block type.
             The default is "WindowAttentionGlobal".
-        layer_scale : Optional[Union[int,float]], optional
+        layer_scale : Optional[Union[int, float]], optional
             Layer scaling coefficient.
             The default is None.
         **kwargs
