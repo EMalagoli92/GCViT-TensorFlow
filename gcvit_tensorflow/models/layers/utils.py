@@ -328,7 +328,7 @@ class LayerNorm_(tf.keras.layers.LayerNormalization):
         """
         Parameters
         ----------
-        normalized_shape : Union[int,tuple]
+        normalized_shape : Union[int, tuple]
             Input shape from an expected input of size:
             [∗ x normalized_shape[0] x normalized_shape[1] x ... x normalized_shape[−1]]
             If a single integer is used, it is treated as a singleton list,
@@ -341,8 +341,7 @@ class LayerNorm_(tf.keras.layers.LayerNormalization):
             Additional keyword arguments.
         """
         self.normalized_shape = normalized_shape
-        self.epsilon = epsilon
-        super().__init__(**kwargs, epsilon=self.epsilon)
+        super().__init__(**kwargs, epsilon=epsilon)
 
     def build(self, input_shape):
 
@@ -355,9 +354,7 @@ class LayerNorm_(tf.keras.layers.LayerNormalization):
 
     def get_config(self):
         config = super().get_config()
-        config.update(
-            {"normalized_shape": self.normalized_shape, "epsilon": self.epsilon}
-        )
+        config.update({"normalized_shape": self.normalized_shape})
         return config
 
 
