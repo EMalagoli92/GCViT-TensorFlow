@@ -80,7 +80,7 @@ class GCViT_(tf.keras.Model):
         attn_drop_rate : float, optional
             Attention dropout rate.
             The default is 0.0.
-        layer_scale : Optional[Union[int,float]], optional
+        layer_scale : Optional[Union[int, float]], optional
             Layer scaling coefficient.
             The default is None.
         classifier_activation: Optional[str], optional
@@ -248,11 +248,8 @@ def GCViT(
 
     Parameters
     ----------
-    configuration : Optional[Literal["xxtiny",
-                                     "xtiny",
-                                     "tiny",
-                                     "small",
-                                     "base"]], optional
+    configuration : Optional[Literal["xxtiny", "xtiny", "tiny", "small", "base"]],
+                    optional
         Name of GCViT predefined configuration.
         Possible values are: "xxtiny", "xtiny", "tiny", "small", "base".
         The default is None.
