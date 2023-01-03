@@ -130,17 +130,12 @@ class Linear_(tf.keras.layers.Dense):
         use_bias : bool, optional
             If set to False, the layer will not learn an additive bias.
             The default is True.
-        kernel_initializer : Union[tf.keras.initializers.Initializer,
-                                  str,
-                                  dict
-                                  ], optional
+        kernel_initializer : Union[tf.keras.initializers.Initializer, str, dict],
+                             optional
             Initializer for the kernel weights matrix.
             If "pytorch_uniform", it will be set to Pytorch Uniform Initializer.
             The default is "pytorch_uniform".
-        bias_initializer : Union[tf.keras.initializers.Initializer,
-                                str,
-                                dict
-                                ], optional
+        bias_initializer : Union[tf.keras.initializers.Initializer, str, dict], optional
             Initializer for the bias vector.
             If "pytorch_uniform", it will be set to Pytorch Uniform Initializer.
             The default is "pytorch_uniform".
@@ -173,19 +168,7 @@ class Linear_(tf.keras.layers.Dense):
 
     def get_config(self):
         config = super().get_config()
-        config.update(
-            {
-                "in_features": self.in_features,
-                "units": self.units,
-                "use_bias": self.use_bias,
-                "kernel_initializer": tf.keras.initializers.serialize(
-                    self.kernel_initializer
-                ),
-                "bias_initializer": tf.keras.initializers.serialize(
-                    self.bias_initializer
-                ),
-            }
-        )
+        config.update({"in_features": self.in_features})
         return config
 
 
