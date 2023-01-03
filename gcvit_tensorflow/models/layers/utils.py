@@ -200,9 +200,9 @@ class Conv2d_(tf.keras.layers.Layer):
             Number of channels in the input image.
         out_channels : int
             Number of channels produced by the convolution.
-        kernel_size : Union[int,tuple,list]
+        kernel_size : Union[int, tuple, list]
             Size of the convolving kernel.
-        stride : Union[int,tuple,list], optional
+        stride : Union[int, tuple, list], optional
             Stride of the convolution.
             The default is 1.
         padding : int, optional
@@ -215,17 +215,12 @@ class Conv2d_(tf.keras.layers.Layer):
         bias : bool, optional
             If True, adds a learnable bias to the output.
             The default is True.
-        kernel_initializer : Union[tf.keras.initializers.Initializer,
-                                  str,
-                                  dict
-                                  ], optional
+        kernel_initializer : Union[tf.keras.initializers.Initializer, str, dict],
+                             optional
             Initializer for the kernel weights matrix.
             If "pytorch_uniform", it will be set to Pytorch Uniform Initializer.
             The default is "pytorch_uniform".
-        bias_initializer : Union[tf.keras.initializers.Initializer,
-                                  str,
-                                  dict
-                                  ], optional
+        bias_initializer : Union[tf.keras.initializers.Initializer, str, dict], optional
             Initializer for the bias vector.
             If "pytorch_uniform", it will be set to Pytorch Uniform Initializer.
             The default is "pytorch_uniform".
