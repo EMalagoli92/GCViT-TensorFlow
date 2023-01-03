@@ -61,10 +61,10 @@ class GCViTLayer(tf.keras.layers.Layer):
         attn_drop : float, optional
             Attention dropout rate.
             The default is 0.0.
-        drop_path : Union[List[float],float], optional
+        drop_path : Union[List[float], float], optional
             Drop path rate.
             The default is 0.0.
-        layer_scale : Optional[Union[int,float]], optional
+        layer_scale : Optional[Union[int, float]], optional
             Scaling coefficient.
             The default is None.
         **kwargs
