@@ -27,7 +27,7 @@ def trunc_normal_(
 
     Parameters
     ----------
-    shape : Union[tf.Tensor,tuple,list]
+    shape : Union[tf.Tensor, tuple, list]
         Shape of the output tensor.
     mean : float, optional
         The mean of the normal distribution.
@@ -41,7 +41,7 @@ def trunc_normal_(
     b : float, optional
         The maximum cutoff value.
         The default is 2.0.
-    dtype: dtype: Union[str,tf.dtypes.DType], optional
+    dtype: dtype: Union[str, tf.dtypes.DType], optional
         Dtype of the tensor.
         The default is tf.float32.
 
