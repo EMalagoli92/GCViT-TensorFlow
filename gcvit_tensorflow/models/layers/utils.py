@@ -372,9 +372,9 @@ class MaxPool2d_(tf.keras.layers.Layer):
         """
         Parameters
         ----------
-        kernel_size : Union[int,tuple]
+        kernel_size : Union[int, tuple]
             The size of the window to take a max over.
-        stride : Union[int,tuple]
+        stride : Union[int, tuple]
             The stride of the window.
         padding : int
             Implicit zero padding to be added on both sides.
