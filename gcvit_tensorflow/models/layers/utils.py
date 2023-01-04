@@ -334,7 +334,7 @@ class LayerNorm_(tf.keras.layers.LayerNormalization):
             If a single integer is used, it is treated as a singleton list,
             and this module will normalize over the last dimension which is
             expected to be of that specific size.
-        epsilon: float, optional
+        epsilon : float, optional
             A value added to the denominator for numerical stability.
             The default is 1e-5.
         **kwargs
