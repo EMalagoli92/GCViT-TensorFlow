@@ -83,7 +83,7 @@ class GCViT_(tf.keras.Model):
         layer_scale : Optional[Union[int, float]], optional
             Layer scaling coefficient.
             The default is None.
-        classifier_activation: Optional[str], optional
+        classifier_activation : Optional[str], optional
             String name for a tf.keras.layers.Activation layer.
             The default is None.
         data_format : Literal["channels_first", "channels_last"], optional
