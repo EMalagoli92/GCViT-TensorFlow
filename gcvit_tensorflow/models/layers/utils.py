@@ -41,7 +41,7 @@ def trunc_normal_(
     b : float, optional
         The maximum cutoff value.
         The default is 2.0.
-    dtype: dtype: Union[str, tf.dtypes.DType], optional
+    dtype : Union[str, tf.dtypes.DType], optional
         Dtype of the tensor.
         The default is tf.float32.
 
