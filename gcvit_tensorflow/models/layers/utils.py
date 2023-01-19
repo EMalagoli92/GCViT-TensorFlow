@@ -183,6 +183,7 @@ class Conv2d_(tf.keras.layers.Layer):
         kernel_size: Union[int, tuple, list],
         stride: Union[int, tuple, list] = 1,
         padding: int = 0,
+        dilation: Union[int, tuple, list] = 1,
         groups: int = 1,
         bias: bool = True,
         kernel_initializer: Union[
@@ -208,6 +209,11 @@ class Conv2d_(tf.keras.layers.Layer):
         padding : int, optional
             Padding added to all four sides of the input.
             The default is 0.
+        dilation : Union[int, tuple, list], optional
+            An integer or tuple/list of 2 integers, specifying the dilation
+            rate to use for dilated convolution. Can be a single integer to
+            specify the same value for all spatial dimensions.
+            The default is 1.
         groups : int, optional
             A positive integer specifying the number of groups in which
             the input is split along the channel axis.
@@ -233,6 +239,7 @@ class Conv2d_(tf.keras.layers.Layer):
         self.kernel_size = kernel_size
         self.stride = stride
         self.padding = padding
+        self.dilation = dilation
         self.groups = groups
         self.bias = bias
         self.kernel_initializer = kernel_initializer
@@ -265,13 +272,14 @@ class Conv2d_(tf.keras.layers.Layer):
         self.conv_layer = tf.keras.layers.Conv2D(
             filters=self.out_channels,
             kernel_size=self.kernel_size,
-            use_bias=self.bias,
+            strides=self.stride,
             padding="valid",
             data_format=self.data_format,
+            dilation_rate=self.dilation,
             groups=self.groups,
+            use_bias=self.bias,
             kernel_initializer=self.kernel_initializer,
             bias_initializer=self.bias_initializer,
-            strides=self.stride,
         )
 
     def uniform_initializer_spec(self):
@@ -305,6 +313,7 @@ class Conv2d_(tf.keras.layers.Layer):
                 "kernel_size": self.kernel_size,
                 "stride": self.stride,
                 "padding": self.padding,
+                "dilation": self.dilation,
                 "groups": self.groups,
                 "bias": self.bias,
                 "kernel_initializer": tf.keras.initializers.serialize(
