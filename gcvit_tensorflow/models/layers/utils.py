@@ -182,7 +182,7 @@ class Conv2d_(tf.keras.layers.Layer):
         out_channels: int,
         kernel_size: Union[int, tuple, list],
         stride: Union[int, tuple, list] = 1,
-        padding: int = 0,
+        padding: Union[int, tuple, list] = 0,
         dilation: Union[int, tuple, list] = 1,
         groups: int = 1,
         bias: bool = True,
@@ -203,16 +203,22 @@ class Conv2d_(tf.keras.layers.Layer):
             Number of channels produced by the convolution.
         kernel_size : Union[int, tuple, list]
             Size of the convolving kernel.
+            If tuple/list of two ints, the first int is used for the height
+            dimension, and the second int for the width dimension.
         stride : Union[int, tuple, list], optional
             Stride of the convolution.
+            If tuple/list of two ints, the first int is used for the height
+            dimension, and the second int for the width dimension.
             The default is 1.
-        padding : int, optional
+        padding : Union[int, tuple, list], optional
             Padding added to all four sides of the input.
+            If tuple/list of two ints, the first int is used for the height
+            dimension, and the second int for the width dimension.
             The default is 0.
         dilation : Union[int, tuple, list], optional
-            An integer or tuple/list of 2 integers, specifying the dilation
-            rate to use for dilated convolution. Can be a single integer to
-            specify the same value for all spatial dimensions.
+            Spacing between kernel elements.
+            If tuple/list of two ints, the first int is used for the height
+            dimension, and the second int for the width dimension.
             The default is 1.
         groups : int, optional
             A positive integer specifying the number of groups in which
@@ -264,10 +270,9 @@ class Conv2d_(tf.keras.layers.Layer):
             self.data_format = "channels_last"
 
         # Pad Layer
-        if self.padding > 0:
-            self.pad_layer = tf.keras.layers.ZeroPadding2D(
-                padding=padding, data_format=self.data_format
-            )
+        self.pad_layer = tf.keras.layers.ZeroPadding2D(
+            padding=self.padding, data_format=self.data_format
+        )
 
         self.conv_layer = tf.keras.layers.Conv2D(
             filters=self.out_channels,
@@ -295,10 +300,7 @@ class Conv2d_(tf.keras.layers.Layer):
     def call(self, inputs, *args, **kwargs):
         if self.data_format == "channels_last":
             inputs = _to_channel_last(inputs)
-        if self.padding > 0:
-            x = self.pad_layer(inputs)
-        else:
-            x = inputs
+        x = self.pad_layer(inputs)
         x = self.conv_layer(x)
         if self.data_format == "channels_last":
             x = _to_channel_first(x)
